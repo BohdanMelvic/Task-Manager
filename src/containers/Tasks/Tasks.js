@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Task from '../components/Task/Task';
-import AddTask from '../components/AddTask/AddTask';
-import * as actionTypes from '../store/actions';
+import Task from '../../components/Task/Task';
+import AddTask from '../../components/AddTask/AddTask';
+import * as actions from '../../store/actions';
 import './Tasks.css'
 
 class Tasks extends Component {
+
+    componentDidMount() {
+        this.props.onFetchTasks();
+    }
     
     render () {
         return (
@@ -36,8 +40,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddedTask: (name, email, status, task) => dispatch({type: actionTypes.ADD_TASK, taskData: {name: name, email: email, status: status, task: task}}),
-        onRemovedTask: (id) => dispatch({type: actionTypes.REMOVE_TASK, taskId: id})
+        onAddedTask: (name, email, status, task) => dispatch(actions.addTask(name, email, status, task)),
+        onRemovedTask: (id) => dispatch(actions.removeTask(id)),
+        onFetchTasks: () => dispatch(actions.fetchTasks())
     }
 };
 

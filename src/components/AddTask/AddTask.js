@@ -50,6 +50,23 @@ class AddTask extends Component {
         this.setState({error: null});
     }
 
+    addTaskHandler = () => {
+        if (!this.checkValidity(this.state.email, {isEmail: true})) {
+            return this.setState({error: true, errorMessage: 'Enter correcr Email'});
+        }
+
+        if (!this.checkValidity(this.state.name, {minLength: 3})) {
+            return this.setState({error: true, errorMessage: 'Too short name'});
+        }
+
+        if (!this.checkValidity(this.state.task, {minLength: 3})) {
+            return this.setState({error: true, errorMessage: 'Too short task'});
+        }
+
+        this.props.taskAdded(this.state.name, this.state.email, this.state.status, this.state.task )
+       
+        }
+
     render () {
         return (
             <Auxiliary>
@@ -77,22 +94,7 @@ class AddTask extends Component {
                         onChange={this.taskChangedHandler}
                         value={this.state.task} />
 
-                    <button onClick={() => {
-                        if (!this.checkValidity(this.state.email, {isEmail: true})) {
-                            return this.setState({error: true, errorMessage: 'Enter correcr Email'});
-                        }
-
-                        if (!this.checkValidity(this.state.name, {minLength: 3})) {
-                            return this.setState({error: true, errorMessage: 'Too short name'});
-                        }
-
-                        if (!this.checkValidity(this.state.task, {minLength: 3})) {
-                            return this.setState({error: true, errorMessage: 'Too short task'});
-                        }
-
-                        this.props.taskAdded(this.state.name, this.state.email, this.state.status, this.state.task )
-                       
-                        }}>Add Task</button>
+                    <button onClick={this.addTaskHandler}>Add Task</button>
                 </div>
             </Auxiliary>
         );
